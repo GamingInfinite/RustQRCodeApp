@@ -1,5 +1,5 @@
 node_modules
 /.svelte-kit
-/src-tauri
+/src-tauri/target
 target
 build
