@@ -1,2 +1,5 @@
 target
 output.svg
+node_modules
+.svelte-kit
+src-tauri
