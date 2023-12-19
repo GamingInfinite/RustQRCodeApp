@@ -11,14 +11,14 @@ fn main() {
     .expect("error while running tauri application");
 }
 
-#[tauri::command]
-fn create_svg(invoke_message: String) -> String {
-  let qr = QrCode::encode_text(&invoke_message, QrCodeEcc::Medium).unwrap();
-  let svg = to_svg_string(&qr, 4);
+#[tauri::command(rename_all = "snake_case")]
+fn create_svg(url: String, color: String) -> String {
+  let qr = QrCode::encode_text(&url, QrCodeEcc::Medium).unwrap();
+  let svg = to_svg_string(&qr, 4, color);
   svg.into()
 }
 
-fn to_svg_string(qr: &QrCode, border: i32) -> String {
+fn to_svg_string(qr: &QrCode, border: i32, color: String) -> String {
   assert!(border >= 0, "Border must be non-negative");
   let mut result: String = String::new();
   result += "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -41,7 +41,9 @@ fn to_svg_string(qr: &QrCode, border: i32) -> String {
           }
       }
   }
-  result += "\" fill=\"#ED1E79\"/>\n";
+  result += "\" fill=\"";
+  result += &color;
+  result += "\"/>\n";
   result += "</svg>\n";
   result
 }
